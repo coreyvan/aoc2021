@@ -1,6 +1,6 @@
 const fs = require("fs");
 
-let input = fs.readFileSync("day1.txt").toString("UTF8").split("\n");
+let input = fs.readFileSync("data/day1.txt").toString("UTF8").split("\n");
 
 let part1 = (data) => {
   let count = 0;
@@ -36,4 +36,4 @@ let part2 = (data) => {
 };
 
 console.log(`part1: ${part1(input)}`);
-console.log(`part1: ${part2(input)}`);
+console.log(`part2: ${part2(input)}`);
