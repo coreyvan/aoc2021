@@ -1,4 +1,4 @@
-const { readFile } = require("fs");
+import fs = require("fs");
 
 type command = {
   direction: string;
@@ -9,7 +9,7 @@ let processData = (
   filename: string,
   callback: (err: any, data: command[]) => void
 ) => {
-  readFile(filename, (err: any, bytes: Buffer) => {
+  fs.readFile(filename, (err: any, bytes: Buffer) => {
     if (err) callback(err, null);
     let data: command[] = bytes
       .toString()

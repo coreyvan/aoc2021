@@ -1,5 +1,8 @@
-var readFileSync = require("fs").readFileSync;
-var input = readFileSync("../../data/day1.txt")
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var fs = require("fs");
+var input = fs
+    .readFileSync("../../data/day1.txt")
     .toString("utf8")
     .split("\n")
     .map(function (n) { return parseInt(n); });

@@ -1,6 +1,7 @@
-const { readFileSync } = require("fs");
+import fs = require("fs");
 
-let input = readFileSync("../../data/day1.txt")
+let input = fs
+  .readFileSync("../../data/day1.txt")
   .toString("utf8")
   .split("\n")
   .map((n) => parseInt(n));

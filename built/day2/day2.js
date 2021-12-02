@@ -1,6 +1,8 @@
-var readFile = require("fs").readFile;
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var fs = require("fs");
 var processData = function (filename, callback) {
-    readFile(filename, function (err, bytes) {
+    fs.readFile(filename, function (err, bytes) {
         if (err)
             callback(err, null);
         var data = bytes
