@@ -1,15 +1,24 @@
 const fs = require("fs");
 
-let processData = (filename) => {
-  let input = fs.readFileSync(filename).toString("UTF8").split("\n");
-
-  return input.map((elem) => {
-    let com = elem.split(" ");
-    return { direction: com[0], value: parseInt(com[1]) };
+let processData = (filename, callback) => {
+  fs.readFile(filename, (err, bytes) => {
+    if (err) callback(err);
+    let data = bytes
+      .toString("UTF8")
+      .split("\n")
+      .map((elem) => {
+        let com = elem.split(" ");
+        return { direction: com[0], value: parseInt(com[1]) };
+      });
+    callback(null, data);
   });
 };
 
-let part1 = (commands) => {
+let part1 = (err, commands) => {
+  if (err) {
+    console.log(err);
+    return;
+  }
   let depth = 0;
   let distance = 0;
 
@@ -27,10 +36,15 @@ let part1 = (commands) => {
         break;
     }
   });
-  return depth * distance;
+  console.log(depth * distance);
 };
 
-let part2 = (commands) => {
+let part2 = (err, commands) => {
+  if (err) {
+    console.log(err);
+    return;
+  }
+
   let depth = 0;
   let distance = 0;
   let aim = 0;
@@ -49,8 +63,8 @@ let part2 = (commands) => {
         break;
     }
   });
-  return depth * distance;
+  console.log(depth * distance);
 };
 
-console.log(part1(processData("data/day2.txt")));
-console.log(part2(processData("data/day2.txt")));
+processData("data/day2.txt", part1);
+processData("data/day2.txt", part2);
