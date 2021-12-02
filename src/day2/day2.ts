@@ -1,10 +1,18 @@
-const fs = require("fs");
+const { readFile } = require("fs");
 
-let processData = (filename, callback) => {
-  fs.readFile(filename, (err, bytes) => {
-    if (err) callback(err);
-    let data = bytes
-      .toString("UTF8")
+type command = {
+  direction: string;
+  value: number;
+};
+
+let processData = (
+  filename: string,
+  callback: (err: any, data: command[]) => void
+) => {
+  readFile(filename, (err: any, bytes: Buffer) => {
+    if (err) callback(err, null);
+    let data: command[] = bytes
+      .toString()
       .split("\n")
       .map((elem) => {
         let com = elem.split(" ");
@@ -14,7 +22,7 @@ let processData = (filename, callback) => {
   });
 };
 
-let part1 = (err, commands) => {
+let part1 = (err: any, commands: command[]) => {
   if (err) {
     console.log(err);
     return;
@@ -39,7 +47,7 @@ let part1 = (err, commands) => {
   console.log(depth * distance);
 };
 
-let part2 = (err, commands) => {
+let part2 = (err: any, commands: command[]) => {
   if (err) {
     console.log(err);
     return;
@@ -66,5 +74,5 @@ let part2 = (err, commands) => {
   console.log(depth * distance);
 };
 
-processData("data/day2.txt", part1);
-processData("data/day2.txt", part2);
+processData("../../data/day2.txt", part1);
+processData("../../data/day2.txt", part2);
