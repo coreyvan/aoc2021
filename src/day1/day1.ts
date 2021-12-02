@@ -6,7 +6,7 @@ let input = fs
   .split("\n")
   .map((n) => parseInt(n));
 
-let d1part1 = (data: number[]) => {
+function d1part1(data: number[]) {
   let count = 0;
   let last = data[0];
   data.shift();
@@ -20,9 +20,9 @@ let d1part1 = (data: number[]) => {
   });
 
   return count;
-};
+}
 
-let d1part2 = (data: number[]) => {
+function d1part2(data: number[]) {
   let count = 0;
   let last = data[0] + data[1] + data[2];
   data.shift();
@@ -36,7 +36,7 @@ let d1part2 = (data: number[]) => {
   }
 
   return count;
-};
+}
 
 console.log(`part1: ${d1part1(input)}`);
 console.log(`part2: ${d1part2(input)}`);
