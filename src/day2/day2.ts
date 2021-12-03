@@ -5,12 +5,36 @@ type command = {
   value: number;
 };
 
+class Submarine {
+  depth: number = 0;
+  distance: number = 0;
+  navigate(commands: command[]): void {
+    commands.forEach((command) => {
+      switch (command.direction) {
+        case "forward":
+          this.distance += command.value;
+          break;
+        case "down":
+          this.depth += command.value;
+          break;
+        case "up":
+          this.depth -= command.value;
+          if (this.depth < 0) this.depth = 0;
+          break;
+      }
+    });
+  }
+  getFinal(): number {
+    return this.depth * this.distance;
+  }
+}
+
 let processData = (
   filename: string,
-  callback: (err: any, data: command[]) => void
+  callback: (err: any, data?: command[]) => void
 ) => {
   fs.readFile(filename, (err: any, bytes: Buffer) => {
-    if (err) callback(err, null);
+    if (err) callback(err);
     let data: command[] = bytes
       .toString()
       .split("\n")
@@ -22,30 +46,39 @@ let processData = (
   });
 };
 
-let part1 = (err: any, commands: command[]) => {
+function part1(err: any, commands: command[]) {
   if (err) {
     console.log(err);
     return;
   }
-  let depth = 0;
-  let distance = 0;
 
-  commands.forEach((command) => {
-    switch (command.direction) {
-      case "forward":
-        distance += command.value;
-        break;
-      case "down":
-        depth += command.value;
-        break;
-      case "up":
-        depth -= command.value;
-        if (depth < 0) depth = 0;
-        break;
-    }
-  });
-  console.log(depth * distance);
-};
+  let sub = new Submarine();
+  sub.navigate(commands);
+  console.log(sub.getFinal());
+}
+
+class AimedSubmarine extends Submarine {
+  aim: number = 0;
+  constructor() {
+    super();
+  }
+  navigate(commands: command[]) {
+    commands.forEach((command) => {
+      switch (command.direction) {
+        case "forward":
+          this.distance += command.value;
+          this.depth += this.aim * command.value;
+          break;
+        case "down":
+          this.aim += command.value;
+          break;
+        case "up":
+          this.aim -= command.value;
+          break;
+      }
+    });
+  }
+}
 
 let part2 = (err: any, commands: command[]) => {
   if (err) {
@@ -53,25 +86,9 @@ let part2 = (err: any, commands: command[]) => {
     return;
   }
 
-  let depth = 0;
-  let distance = 0;
-  let aim = 0;
-
-  commands.forEach((command) => {
-    switch (command.direction) {
-      case "forward":
-        distance += command.value;
-        depth += aim * command.value;
-        break;
-      case "down":
-        aim += command.value;
-        break;
-      case "up":
-        aim -= command.value;
-        break;
-    }
-  });
-  console.log(depth * distance);
+  let sub = new AimedSubmarine();
+  sub.navigate(commands);
+  console.log(sub.getFinal());
 };
 
 processData("../../data/day2.txt", part1);
