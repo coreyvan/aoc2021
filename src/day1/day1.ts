@@ -1,12 +1,11 @@
-import fs = require("fs");
+import { readFileSync } from "fs";
 
-let input = fs
-  .readFileSync("../../data/day1.txt")
+let input = readFileSync("../../data/day1.txt")
   .toString("utf8")
   .split("\n")
   .map((n) => parseInt(n));
 
-function d1part1(data: number[]) {
+function part1(data: number[]) {
   let count = 0;
   let last = data[0];
   data.shift();
@@ -22,7 +21,7 @@ function d1part1(data: number[]) {
   return count;
 }
 
-function d1part2(data: number[]) {
+function part2(data: number[]) {
   let count = 0;
   let last = data[0] + data[1] + data[2];
   data.shift();
@@ -38,5 +37,7 @@ function d1part2(data: number[]) {
   return count;
 }
 
-console.log(`part1: ${d1part1(input)}`);
-console.log(`part2: ${d1part2(input)}`);
+console.assert(part1(input) == 1832, "part1 was incorrect, should equal 1832");
+console.assert(part2(input) == 1857, "part2 was incorrect, should equal 1857");
+
+export {};

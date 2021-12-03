@@ -29,6 +29,29 @@ class Submarine {
   }
 }
 
+class AimedSubmarine extends Submarine {
+  aim: number = 0;
+  constructor() {
+    super();
+  }
+  navigate(commands: command[]) {
+    commands.forEach((command) => {
+      switch (command.direction) {
+        case "forward":
+          this.distance += command.value;
+          this.depth += this.aim * command.value;
+          break;
+        case "down":
+          this.aim += command.value;
+          break;
+        case "up":
+          this.aim -= command.value;
+          break;
+      }
+    });
+  }
+}
+
 let processData = (
   filename: string,
   callback: (err: any, data?: command[]) => void
@@ -54,30 +77,10 @@ function part1(err: any, commands: command[]) {
 
   let sub = new Submarine();
   sub.navigate(commands);
-  console.log(sub.getFinal());
-}
-
-class AimedSubmarine extends Submarine {
-  aim: number = 0;
-  constructor() {
-    super();
-  }
-  navigate(commands: command[]) {
-    commands.forEach((command) => {
-      switch (command.direction) {
-        case "forward":
-          this.distance += command.value;
-          this.depth += this.aim * command.value;
-          break;
-        case "down":
-          this.aim += command.value;
-          break;
-        case "up":
-          this.aim -= command.value;
-          break;
-      }
-    });
-  }
+  console.assert(
+    sub.getFinal() === 1524750,
+    "part1 was incorrect, should be 1524750"
+  );
 }
 
 let part2 = (err: any, commands: command[]) => {
@@ -88,8 +91,13 @@ let part2 = (err: any, commands: command[]) => {
 
   let sub = new AimedSubmarine();
   sub.navigate(commands);
-  console.log(sub.getFinal());
+  console.assert(
+    sub.getFinal() === 1592426537,
+    "part2 was incorrect, should be 1592426537"
+  );
 };
 
 processData("../../data/day2.txt", part1);
 processData("../../data/day2.txt", part2);
+
+export {};
